@@ -17,7 +17,7 @@ public class Asteroid : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-       
+    
 
         float magn = Random.Range(minForce, maxForce);
         float x = Random.Range(-1f, 1f);
@@ -33,7 +33,7 @@ public class Asteroid : MonoBehaviour {
 
     }
 
-    public virtual void OnTriggerEnter2D(Collider2D col)
+    public void OnTriggerEnter2D(Collider2D col)
     {
        
         if (col.gameObject.tag == "Bullet")
