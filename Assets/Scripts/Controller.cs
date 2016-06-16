@@ -44,10 +44,7 @@ public class Controller : MonoBehaviour
         Movement();
 
         //Shooting
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Instantiate(Bullet, transform.position, transform.rotation);
-        }
+        
 
         if (moving.IsSleeping())
         {
@@ -60,7 +57,16 @@ public class Controller : MonoBehaviour
             move.isMoving = true;
             engineParticle.SetActive(true);
         }
+        Shoot();
         }
+
+    public void Shoot()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Instantiate(Bullet, transform.position, transform.rotation);
+        }
+    }
     
 
     public void Movement()
@@ -68,18 +74,18 @@ public class Controller : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal") * Time.deltaTime;
         float y = Input.GetAxisRaw("Vertical") * Time.deltaTime;
 
-        transform.position = new Vector3(transform.position.x + (Speed * x), transform.position.y + (Speed * y), -1f);
+        gameObject.transform.position = new Vector3(transform.position.x + (Speed * x), transform.position.y + (Speed * y), -1f);
 
         if (x != 0 || y != 0)
         {
             Quaternion newRotation = transform.rotation;
             newRotation.SetLookRotation(new Vector3(x, y, 1f).normalized, Vector3.back);
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, .1f);
+            gameObject.transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, .1f);
         }
     }
     
-    void OnTriggerEnter2D (Collider2D col)
+     void OnTriggerEnter2D (Collider2D col)
     {
        
         if (col.gameObject.tag=="Ast")

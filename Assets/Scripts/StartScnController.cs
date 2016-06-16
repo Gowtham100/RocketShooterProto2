@@ -4,6 +4,7 @@ using System.Collections;
 public class StartScnController : MonoBehaviour {
     public GameObject Bullet;
     public float Speed;
+    public Controller contrl;
     // Use this for initialization
     void Start () {
 	
@@ -11,14 +12,19 @@ public class StartScnController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Movement();
+   
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Instantiate(Bullet, transform.position, transform.rotation);
         }
+
+        Movement();
+      
     }
 
-    public void Movement()
+
+
+   public void Movement()
     {
         float x = Input.GetAxisRaw("Horizontal") * Time.deltaTime;
         float y = Input.GetAxisRaw("Vertical") * Time.deltaTime;
@@ -33,4 +39,6 @@ public class StartScnController : MonoBehaviour {
             transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, .1f);
         }
     }
+
+  
 }
