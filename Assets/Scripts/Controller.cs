@@ -17,6 +17,9 @@ public class Controller : MonoBehaviour
 
     private Rigidbody2D moving;
     public int thrust;
+    private float xAngle;
+    private float yAngle;
+    private float zAngle;
 
     private Camera cam;
     private float z_distance;
@@ -105,16 +108,34 @@ public class Controller : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal") * Time.deltaTime;
         float y = Input.GetAxisRaw("Vertical") * Time.deltaTime;
 
-        gameObject.transform.position = new Vector3(transform.position.x + (Speed * x), transform.position.y + (Speed * y), -1f);
-        moving.AddForce(transform.forward * thrust);
+        //gameObject.transform.position = new Vector3(transform.position.x + (Speed * x), transform.position.y + (Speed * y), -1f);
 
-        if (x != 0 || y != 0)
+        //Vector2 forceDir = new Vector2(0f, transform.position.y);
+        Quaternion rotation = Quaternion.Euler(xAngle, yAngle, zAngle);
+        Vector3 direction = rotation * Vector3.forward;
+
+        
+
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+
+            moving.AddForce(transform.up * thrust);
+        }
+
+
+        if (Input.GetKey(KeyCode.RightArrow))
+            transform.Rotate(Vector3.back * normalSpeed /** Time.deltaTime*/);
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+            transform.Rotate(-Vector3.back * normalSpeed /** Time.deltaTime*/);
+
+        /*if (x != 0 || y != 0)
         {
             Quaternion newRotation = transform.rotation;
             newRotation.SetLookRotation(new Vector3(x, y, 1f).normalized, Vector3.back);
 
             gameObject.transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, .1f);
-        }
+        }*/
     }
     
      void OnTriggerEnter2D (Collider2D col)
