@@ -12,19 +12,39 @@ public class Controller : MonoBehaviour
     private float boostSpeed = 17f;
     public GameObject Bullet;
     public GameObject Explosion;
-    public Timer move;
+
     public GameObject engineParticle;
 
     private Rigidbody2D moving;
+    public int thrust;
+
+    private Camera cam;
+    private float z_distance;
+    private float leftConstraint;
+    private float rightConstraint;
+    private float bottomConstraint;
+    private float topConstraint;
+ 
+
 
 
     // Use this for initialization
     void Start()
     {
+        cam = Camera.main;
+        z_distance = Mathf.Abs(cam.transform.position.z + transform.position.z);
+
         moving = GetComponent<Rigidbody2D>();
-       
-       
-       
+
+        leftConstraint = cam.ScreenToWorldPoint(new Vector3(0.0f, 0.0f, z_distance)).x;
+        rightConstraint = cam.ScreenToWorldPoint(new Vector3(Screen.width, 0.0f, z_distance)).x;
+
+        bottomConstraint = cam.ScreenToWorldPoint(new Vector3(0.0f, 0.0f, z_distance)).y;
+        topConstraint = cam.ScreenToWorldPoint(new Vector3(0.0f, Screen.height, z_distance)).y;
+
+
+
+
     }
 
     // Update is called once per frame
@@ -33,12 +53,12 @@ public class Controller : MonoBehaviour
         //Code for speed booster
         if (Input.GetKeyDown("left shift") )
         {
-            move.isMovingFast = true;
+           
             Speed = boostSpeed;
         }
         else if (Input.GetKeyUp("left shift"))
         {
-            move.isMovingFast = false;
+            
             Speed = normalSpeed;
         }
         Movement();
@@ -46,19 +66,30 @@ public class Controller : MonoBehaviour
         //Shooting
         
 
-        if (moving.IsSleeping())
-        {
-            move.isMoving = false;
-            engineParticle.SetActive(false);
-
-        }
-        else
-        {
-            move.isMoving = true;
-            engineParticle.SetActive(true);
-        }
+      
         Shoot();
+       
         }
+
+    void FixedUpdate()
+    {
+        if (transform.position.x < leftConstraint)
+        {
+            transform.position = new Vector3(rightConstraint, transform.position.y, transform.position.z);
+        }
+        if (transform.position.x > rightConstraint)
+        {
+            transform.position = new Vector3(leftConstraint, transform.position.y, transform.position.z);
+        }
+        if (transform.position.y < bottomConstraint)
+        {
+            transform.position = new Vector3(transform.position.x, topConstraint , transform.position.z);
+        }
+        if (transform.position.y > topConstraint)
+        {
+            transform.position = new Vector3(transform.position.x, bottomConstraint, transform.position.z);
+        }
+    }
 
     public void Shoot()
     {
@@ -75,6 +106,7 @@ public class Controller : MonoBehaviour
         float y = Input.GetAxisRaw("Vertical") * Time.deltaTime;
 
         gameObject.transform.position = new Vector3(transform.position.x + (Speed * x), transform.position.y + (Speed * y), -1f);
+        moving.AddForce(transform.forward * thrust);
 
         if (x != 0 || y != 0)
         {
@@ -102,6 +134,8 @@ public class Controller : MonoBehaviour
             
         }
     }
+
+  
 
     IEnumerator Delay()
     {

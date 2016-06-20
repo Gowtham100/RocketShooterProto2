@@ -10,14 +10,15 @@ public class Asteroid : MonoBehaviour {
     public GameObject Explosion;
     public GameObject MiniAst;
 
-    
+  
+
 
 
 
     // Use this for initialization
     void Start () {
+        
 
-    
 
         float magn = Random.Range(minForce, maxForce);
         float x = Random.Range(-1f, 1f);
@@ -41,7 +42,7 @@ public class Asteroid : MonoBehaviour {
             Instantiate(Explosion, transform.position, transform.rotation);
             Destroy(gameObject);
             Instantiate(MiniAst, transform.position, transform.rotation);
-
+           
         }
     }
 
