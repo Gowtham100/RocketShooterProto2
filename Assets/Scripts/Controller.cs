@@ -123,15 +123,9 @@ public class Controller : MonoBehaviour
             transform.Rotate(Vector3.back * normalSpeed /** Time.deltaTime*/);
 
         if (Input.GetKey(KeyCode.LeftArrow))
-            transform.Rotate(-Vector3.back * normalSpeed /** Time.deltaTime*/);
+            transform.Rotate(-Vector3.back * normalSpeed );
 
-        /*if (x != 0 || y != 0)
-        {
-            Quaternion newRotation = transform.rotation;
-            newRotation.SetLookRotation(new Vector3(x, y, 1f).normalized, Vector3.back);
 
-            gameObject.transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, .1f);
-        }*/
     }
     
      void OnTriggerEnter2D (Collider2D col)
