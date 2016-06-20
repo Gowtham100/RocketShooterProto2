@@ -108,11 +108,7 @@ public class Controller : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal") * Time.deltaTime;
         float y = Input.GetAxisRaw("Vertical") * Time.deltaTime;
 
-        //gameObject.transform.position = new Vector3(transform.position.x + (Speed * x), transform.position.y + (Speed * y), -1f);
-
-        //Vector2 forceDir = new Vector2(0f, transform.position.y);
-        Quaternion rotation = Quaternion.Euler(xAngle, yAngle, zAngle);
-        Vector3 direction = rotation * Vector3.forward;
+    
 
         
 
